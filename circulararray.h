@@ -1,4 +1,5 @@
 #include <iostream>
+#include <sstream>
 using namespace std;
 
 template <class T>
@@ -41,6 +42,66 @@ CircularArray<T>::CircularArray(int _capacity)
 }
 
 template <class T>
+CircularArray<T>::~CircularArray()
+{
+    delete [] this->array;
+}
+
+template <class T>
+void CircularArray<T>::push_back(T data)
+{
+    if(this->is_empty()){
+        this->front=this->back=0;
+    }
+    if(this->is_full()){
+        throw("Lleno");
+    }
+    if(this->back=this->capacity-1){
+        this->back=0;
+    }
+    else{
+        this->back=this->next(this->back);
+    }
+    this->array[back]=data;
+}
+
+template <class T>
+void CircularArray<T>::push_front(T data)
+{
+    if(this->is_empty()){
+        this->front=this->back=0;
+    }
+    if(this->is_full()){
+        throw("Lleno");
+    }
+    else if(this->front=0){
+        this->front=this->capacity-1;
+    }
+    else{
+        this->front=this->prev(this->front);
+    }
+    this->array[this->front]=data;
+}
+
+template <class T>
+string CircularArray<T>::to_string(string sep)
+{
+    //throw("Falta implementar");
+    if (this->is_empty())
+    {
+        return "";
+    }
+    std::ostringstream oss;
+    int i = this->front;
+    do
+    {
+        oss << this->array[i] << sep;
+        i = this->next(i);
+    } while (i != this->next(this->back));
+    return oss.str();
+}
+
+template <class T>
 void CircularArray<T>::clear()
 {
     this->front = this->back = -1;//empty
@@ -49,7 +110,7 @@ void CircularArray<T>::clear()
 template <class T>
 bool CircularArray<T>::is_empty()
 {
-    if (this->front=-1 && this->back=-1){
+    if (this->front==-1 && this->back==-1){
         return true;
     }
     else{
@@ -60,7 +121,7 @@ bool CircularArray<T>::is_empty()
 template <class T>
 int CircularArray<T>::size()
 {
-    if(this->is_empty=true){
+    if(this->front==this->back==-1){
         return 0;
     }
     else{
@@ -68,7 +129,7 @@ int CircularArray<T>::size()
             return (this->back + 1 - this->front);
         }
         else{
-            return (this->capacity - this->front + this->back + 1);;
+            return (this->capacity - this->front + this->back + 1);
         }
     }
 }
@@ -76,7 +137,10 @@ int CircularArray<T>::size()
 template <class T>
 bool CircularArray<T>::is_full()
 {
-    if(this->capacity==this->size){
+    if(this->front==0 && this->back==this->capacity-1){
+        return true;
+    }
+    else if(this->back==this->front-1){
         return true;
     }
     else{
@@ -84,29 +148,49 @@ bool CircularArray<T>::is_full()
     }
 }
 
-
 template <class T>
 T CircularArray<T>::pop_back()
 {
-    if(this->is_empty=true){
-        return 0;
+    if(this->front==-1 && this->back==-1){
+        throw("No se puede eliminar");
+    }
+    T dato=array[this->back];
+    if(this->back==this->front){
+        this->front = this->back = -1;//empty
     }
     else{
-            this->back=this->back-1;
-            this->size=this->size-1;
+        this->back=prev(this->back);
     }
+    return dato;
 }
 
 template <class T>
 T CircularArray<T>::pop_front()
 {
-    if(this->is_empty=true){
-        return 0;
+    if(this->front==-1 && this->back==-1){
+        throw("No se puede eliminar");
+    }
+    T data=array[this->front];
+    if(this->back==this->front){
+        this->front = this->back = -1;//empty
     }
     else{
-            this->front=this->front-1;
-            this->size=this->size-1;
+        this->front=next(this->front);
     }
+    return data;
+
+}
+
+template <class T>
+int CircularArray<T>::next(int i)
+{
+    return (i + 1) % this->capacity;
+}
+
+template <class T>
+int CircularArray<T>::prev(int i)
+{
+    return (i+this->capacity-1) % this->capacity;
 }
 
 template <class T>
@@ -116,7 +200,7 @@ void CircularArray<T>::sort()
 }
 
 template <class T>
-void CircularArray<T>::sort()
+void CircularArray<T>::insert(T data, int pos)
 {
     throw("Falta implementar");
 }
@@ -128,7 +212,13 @@ bool CircularArray<T>::is_sorted()
 }
 
 template <class T>
-void CircularArray<T>::insert()
+void CircularArray<T>::reverse()
+{
+    throw("Falta implementar");
+}
+
+template <class T>
+T &CircularArray<T>::operator[](int i)
 {
     throw("Falta implementar");
 }
