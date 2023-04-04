@@ -112,11 +112,23 @@ T CircularArray<T>::pop_front()
 template <class T>
 void CircularArray<T>::sort()
 {
+    throw("Falta implementar");
+}
 
+template <class T>
+void CircularArray<T>::sort()
+{
+    throw("Falta implementar");
 }
 
 template <class T>
 bool CircularArray<T>::is_sorted()
 {
+    throw("Falta implementar");
+}
 
+template <class T>
+void CircularArray<T>::insert()
+{
+    throw("Falta implementar");
 }
